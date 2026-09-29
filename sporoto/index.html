@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sporoto</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0e13'/%3E%3Cpath d='M12 42 L30 16 L40 16 L26 36 L52 36 L48 46 L10 46 Z' fill='%23ff3b2f'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 40" aria-hidden="true"><path d="M4 34 L22 6 L34 6 L20 26 L60 26 L55 34 Z"/></svg>
+      <div>
+        <div class="brand-name">SPOROTO</div>
+        <div class="brand-tag" data-i18n="tagline"></div>
+      </div>
+    </div>
+    <nav class="steps" id="steps"></nav>
+    <div class="lang">
+      <button data-lang="fr" title="Français">FR</button>
+      <button data-lang="es" title="Español">ES</button>
+    </div>
+  </header>
+
+  <!-- ============ GARAGE ============ -->
+  <section id="garage" class="screen active">
+    <main class="garage-main">
+      <div class="step-panel" data-step="track">
+        <div class="track-layout">
+          <div class="track-grid" id="trackGrid"></div>
+          <div class="track-detail card" id="trackDetail"></div>
+        </div>
+      </div>
+      <div class="step-panel" data-step="car">
+        <div class="car-grid" id="carGrid"></div>
+        <p class="note" data-i18n="preset_note"></p>
+      </div>
+      <div class="step-panel" data-step="setup">
+        <div class="setup-layout">
+          <div class="setup-groups" id="setupGroups"></div>
+          <div class="setup-side">
+            <div class="card" id="derivedCard"></div>
+            <div class="card estimate-card">
+              <h2 class="sec" data-i18n="est_lap"></h2>
+              <div class="est-out" id="estOut"></div>
+            </div>
+            <button class="btn ghost small" id="btnReset" data-i18n="reset_preset"></button>
+          </div>
+        </div>
+      </div>
+      <div class="step-panel" data-step="cond">
+        <div class="cond-grid" id="condGrid"></div>
+      </div>
+      <div class="step-panel" data-step="session">
+        <div class="session-grid" id="sessionGrid"></div>
+      </div>
+      <div class="step-nav">
+        <button class="btn ghost" id="btnPrev" data-i18n="prev"></button>
+        <button class="btn" id="btnNext" data-i18n="next"></button>
+      </div>
+    </main>
+    <aside class="summary card" id="summary"></aside>
+  </section>
+
+  <!-- ============ SIMULATION TEMPS RÉEL ============ -->
+  <section id="sim" class="screen">
+    <div id="view3d"></div>
+    <div class="hud">
+      <div class="hud-tl panel-glass" id="timing"></div>
+      <div class="hud-tr">
+        <div class="panel-glass map-box"><canvas id="miniMap" width="300" height="220"></canvas></div>
+        <div class="panel-glass elev-box"><canvas id="elevMini" width="300" height="70"></canvas></div>
+      </div>
+      <div class="hud-right panel-glass" id="carState"></div>
+      <div class="hud-bottom">
+        <div class="panel-glass tele-box">
+          <div class="tele-title" data-i18n="speed_trace"></div>
+          <canvas id="speedTrace" width="520" height="120"></canvas>
+        </div>
+        <div class="dash panel-glass" id="dash"></div>
+      </div>
+      <div class="hud-bl panel-glass" id="controls"></div>
+      <div class="hud-banner" id="banner"></div>
+      <div class="hud-cond" id="condBadge"></div>
+    </div>
+  </section>
+
+  <!-- ============ RÉSULTATS ============ -->
+  <section id="results" class="screen">
+    <div class="results-wrap" id="resultsWrap"></div>
+  </section>
+
+  <footer class="credit" data-i18n="credit"></footer>
+  <div class="toast" id="toast"></div>
+  <div class="loader" id="loader"><div class="loader-bar"><span></span></div><div class="loader-text" id="loaderText"></div></div>
+  <input type="file" id="fileInput" accept="application/json,.json" hidden>
+</div>
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

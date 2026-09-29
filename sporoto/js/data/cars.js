@@ -1,0 +1,195 @@
+// Sporoto — catégories de voitures. Valeurs issues des règlements techniques et données publiques
+// (FIA F1 2024, FIA F2/F3, ACO/FIA WEC LMH/LMDh, LMP2 Oreca 07-Gibson, LMP3 Ligier JS P320, SRO/FIA GT3),
+// complétées par des estimations publiées (Cx·S, Cz·S, rendement moteur) quand la donnée n'est pas publique.
+// Unités : masse kg (pilote compris, sans carburant), puissance ch (métriques), vitesses km/h,
+// pressions psi (à froid), angles en degrés, hauteurs de caisse en mm.
+
+export const CAR_ORDER = ['F1', 'F2', 'F3', 'HYPERCAR', 'LMP2', 'LMP3', 'GT3', 'LIBRE'];
+
+const base = {
+  drive: 'RWD', driveEff: 0.92, fuelDensity: 0.745, lhv: 43.0, abs: false, tc: false,
+  diffLock: 45, stiffness: 55, lltd: 52, brakeDuct: 50, skill: 98.5, consistency: 0.15,
+  autoGear: true, tireInit: 0, camberOpt: 3.5, refuelRate: 3, tireChange: 10, hybridKW: 0, hybridMJ: 0, fuelFlow: 0,
+};
+
+export const CARS = {
+  F1: {
+    ...base, tireHeat: 0.85, model: 'Monoplace F1 2024', family: 'open',
+    mass: 798, weightFront: 45.5, cgHeight: 0.28, wheelbase: 3.60, trackWidth: 1.60, width: 2.00, height: 0.95, areaFactor: 0.78,
+    cx: 0.80, cz: 4.60, aeroBalance: 42, wingFront: 10, wingRear: 12, wingFrontRef: 10, wingRearRef: 12,
+    rideFront: 30, rideRear: 45, rideRef: 38, rakeRef: 15, groundEffect: 0.55, heaveK: 900, rideMin: 6,
+    power: 800, rpmPeak: 11000, rpmMax: 12500, turbo: true, hybridKW: 120, hybridMJ: 4.0,
+    gears: 8, vTop: 350, shiftMs: 5, driveEff: 0.93,
+    bte: 0.50, fuelFlow: 100, tank: 147, fuel: 135,
+    tireMu: 1.92, loadSens: 0.16, tireRadius: 0.36, compound: 'soft',
+    pressF: 25.5, pressR: 23.5, pressOptF: 30.0, pressOptR: 28.0, camberF: -3.3, camberR: -1.9, tireInit: 70,
+    brakeBias: 57, brakeType: 'carbon', brakeCap: 45,
+    lltd: 56, stiffness: 65, diffLock: 40, refuelRate: 12, tireChange: 2.5,
+  },
+  F2: {
+    ...base, tireHeat: 1.15, model: 'Dallara F2 2024 · Mecachrome V6 3,4 turbo', family: 'open',
+    mass: 795, weightFront: 44.5, cgHeight: 0.30, wheelbase: 3.135, trackWidth: 1.52, width: 1.90, height: 1.097, areaFactor: 0.75,
+    cx: 0.72, cz: 2.10, aeroBalance: 43, wingFront: 10, wingRear: 12, wingFrontRef: 10, wingRearRef: 12,
+    rideFront: 35, rideRear: 60, rideRef: 45, rakeRef: 25, groundEffect: 0.40, heaveK: 700, rideMin: 8,
+    power: 620, rpmPeak: 8500, rpmMax: 8750, turbo: true,
+    gears: 6, vTop: 320, shiftMs: 25,
+    bte: 0.33, tank: 125, fuel: 110,
+    tireMu: 1.78, loadSens: 0.15, tireRadius: 0.36, compound: 'soft',
+    pressF: 23.0, pressR: 21.0, pressOptF: 28.0, pressOptR: 26.0, camberF: -3.3, camberR: -1.9,
+    brakeBias: 57, brakeType: 'carbon', brakeCap: 33,
+    stiffness: 60, diffLock: 40, refuelRate: 12, tireChange: 3,
+  },
+  F3: {
+    ...base, tireHeat: 1.5, model: 'Dallara F3 2019 · Mecachrome V6 3,4 atmo', family: 'open',
+    mass: 673, weightFront: 44, cgHeight: 0.30, wheelbase: 2.90, trackWidth: 1.50, width: 1.885, height: 1.038, areaFactor: 0.75,
+    cx: 0.58, cz: 2.20, aeroBalance: 41, wingFront: 10, wingRear: 12, wingFrontRef: 10, wingRearRef: 12,
+    rideFront: 35, rideRear: 55, rideRef: 45, rakeRef: 20, groundEffect: 0.30, heaveK: 550, rideMin: 8,
+    power: 380, rpmPeak: 7700, rpmMax: 8000, turbo: false,
+    gears: 6, vTop: 290, shiftMs: 30,
+    bte: 0.32, tank: 60, fuel: 50,
+    tireMu: 1.72, loadSens: 0.14, tireRadius: 0.33, compound: 'soft',
+    pressF: 21.0, pressR: 19.0, pressOptF: 26.0, pressOptR: 24.0, camberF: -3.0, camberR: -1.8,
+    brakeBias: 56, brakeType: 'steel', brakeCap: 25,
+    stiffness: 60, diffLock: 40, refuelRate: 12, tireChange: 3,
+  },
+  HYPERCAR: {
+    ...base, tireHeat: 1.1, model: 'Le Mans Hypercar (LMH/LMDh, BoP)', family: 'proto',
+    mass: 1040, weightFront: 47, cgHeight: 0.32, wheelbase: 3.15, trackWidth: 1.70, width: 2.00, height: 1.07, areaFactor: 0.85,
+    cx: 0.50, cz: 2.05, aeroBalance: 42, wingFront: 8, wingRear: 10, wingFrontRef: 8, wingRearRef: 10,
+    rideFront: 45, rideRear: 65, rideRef: 55, rakeRef: 20, groundEffect: 0.30, heaveK: 700, rideMin: 10,
+    power: 680, rpmPeak: 7000, rpmMax: 8000, turbo: true,
+    gears: 7, vTop: 340, shiftMs: 30, tc: true,
+    bte: 0.42, tank: 90, fuel: 90,
+    tireMu: 1.62, loadSens: 0.14, tireRadius: 0.355, compound: 'medium',
+    pressF: 22.0, pressR: 22.0, pressOptF: 27.0, pressOptR: 27.0, camberF: -3.0, camberR: -2.2,
+    brakeBias: 55, brakeType: 'carbon', brakeCap: 38,
+  },
+  LMP2: {
+    ...base, tireHeat: 1.15, model: 'Oreca 07 · Gibson GK428 V8 4,2', family: 'proto',
+    mass: 1000, weightFront: 46, cgHeight: 0.30, wheelbase: 3.005, trackWidth: 1.66, width: 1.90, height: 1.045, areaFactor: 0.85,
+    cx: 0.52, cz: 1.95, aeroBalance: 42, wingFront: 8, wingRear: 10, wingFrontRef: 8, wingRearRef: 10,
+    rideFront: 40, rideRear: 60, rideRef: 50, rakeRef: 20, groundEffect: 0.35, heaveK: 700, rideMin: 10,
+    power: 590, rpmPeak: 8000, rpmMax: 8600, turbo: false,
+    gears: 6, vTop: 335, shiftMs: 30, tc: true,
+    bte: 0.36, tank: 75, fuel: 75,
+    tireMu: 1.60, loadSens: 0.14, tireRadius: 0.345, compound: 'medium',
+    pressF: 22.0, pressR: 22.0, pressOptF: 27.0, pressOptR: 27.0, camberF: -3.0, camberR: -2.0,
+    brakeBias: 56, brakeType: 'carbon', brakeCap: 34,
+  },
+  LMP3: {
+    ...base, tireHeat: 1.3, model: 'Ligier JS P320 · Nissan VK56 V8 5,6', family: 'proto',
+    mass: 1030, weightFront: 45, cgHeight: 0.31, wheelbase: 2.85, trackWidth: 1.64, width: 1.90, height: 1.05, areaFactor: 0.85,
+    cx: 0.56, cz: 1.45, aeroBalance: 41, wingFront: 8, wingRear: 10, wingFrontRef: 8, wingRearRef: 10,
+    rideFront: 45, rideRear: 60, rideRef: 52, rakeRef: 15, groundEffect: 0.25, heaveK: 500, rideMin: 12,
+    power: 455, rpmPeak: 6800, rpmMax: 7500, turbo: false,
+    gears: 6, vTop: 295, shiftMs: 40,
+    bte: 0.34, tank: 100, fuel: 90,
+    tireMu: 1.55, loadSens: 0.12, tireRadius: 0.34, compound: 'medium',
+    pressF: 22.0, pressR: 22.0, pressOptF: 27.0, pressOptR: 27.0, camberF: -3.0, camberR: -2.0,
+    brakeBias: 57, brakeType: 'steel', brakeCap: 28,
+  },
+  GT3: {
+    ...base, tireHeat: 1.2, model: 'GT3 (FIA/SRO, BoP moyenne)', family: 'gt',
+    mass: 1310, weightFront: 44, cgHeight: 0.42, wheelbase: 2.65, trackWidth: 1.70, width: 2.04, height: 1.25, areaFactor: 0.85,
+    cx: 0.43, cz: 0.80, aeroBalance: 40, wingFront: 6, wingRear: 8, wingFrontRef: 6, wingRearRef: 8,
+    rideFront: 55, rideRear: 75, rideRef: 65, rakeRef: 20, groundEffect: 0.15, heaveK: 350, rideMin: 15,
+    power: 550, rpmPeak: 7000, rpmMax: 7800, turbo: true,
+    gears: 6, vTop: 300, shiftMs: 50, abs: true, tc: true,
+    bte: 0.35, tank: 120, fuel: 110,
+    tireMu: 1.50, loadSens: 0.12, tireRadius: 0.35, compound: 'medium',
+    pressF: 22.0, pressR: 22.0, pressOptF: 27.5, pressOptR: 27.5, camberF: -3.5, camberR: -2.5,
+    brakeBias: 58, brakeType: 'steel', brakeCap: 26,
+    lltd: 55, stiffness: 50, diffLock: 50, tireChange: 12,
+  },
+  LIBRE: {
+    ...base, tireHeat: 1.0, model: 'Prototype Sporoto X', family: 'proto',
+    mass: 900, weightFront: 45, cgHeight: 0.30, wheelbase: 3.00, trackWidth: 1.70, width: 2.00, height: 1.05, areaFactor: 0.85,
+    cx: 0.50, cz: 2.40, aeroBalance: 38, wingFront: 8, wingRear: 10, wingFrontRef: 8, wingRearRef: 10,
+    rideFront: 40, rideRear: 60, rideRef: 50, rakeRef: 20, groundEffect: 0.40, heaveK: 700, rideMin: 10,
+    power: 1000, rpmPeak: 9000, rpmMax: 10000, turbo: true, hybridKW: 150, hybridMJ: 6, lltd: 60,
+    gears: 7, vTop: 360, shiftMs: 20, tc: true,
+    bte: 0.42, tank: 100, fuel: 90,
+    tireMu: 1.75, loadSens: 0.14, tireRadius: 0.35, compound: 'soft',
+    pressF: 23.0, pressR: 23.0, pressOptF: 28.0, pressOptR: 28.0, camberF: -3.2, camberR: -2.0,
+    brakeBias: 56, brakeType: 'carbon', brakeCap: 40,
+  },
+};
+
+// Pneumatiques : µ relatif, fenêtre de température (°C), usure et échauffement relatifs,
+// capacité d'évacuation d'eau (aquaplaning), seuil de « falaise » d'usure.
+export const COMPOUNDS = {
+  soft:   { mu: 1.000, Topt: 92,  dT: 20, wear: 1.00, heat: 1.00, drain: 1.0, cliff: 0.70, color: '#ff2a2a' },
+  medium: { mu: 0.990, Topt: 97,  dT: 22, wear: 0.62, heat: 0.97, drain: 1.0, cliff: 0.72, color: '#ffd12a' },
+  hard:   { mu: 0.978, Topt: 102, dT: 25, wear: 0.42, heat: 0.94, drain: 1.0, cliff: 0.75, color: '#f2f2f2' },
+  inter:  { mu: 0.860, Topt: 80,  dT: 22, wear: 0.90, heat: 1.30, drain: 2.8, cliff: 0.70, color: '#3bd16f' },
+  wet:    { mu: 0.800, Topt: 65,  dT: 22, wear: 1.10, heat: 1.50, drain: 4.0, cliff: 0.70, color: '#2a8cff' },
+  studs:  { mu: 0.660, Topt: 45,  dT: 30, wear: 1.60, heat: 1.20, drain: 2.5, cliff: 0.70, color: '#aab4c0' },
+};
+export const COMPOUND_ORDER = ['soft', 'medium', 'hard', 'inter', 'wet', 'studs'];
+
+// Schéma des paramètres réglables (génère l'interface du garage).
+// g = groupe, u = unité, [min, max, pas], k = clé i18n
+export const PARAMS = [
+  { key: 'mass', g: 'chassis', u: 'kg', r: [450, 2000, 1] },
+  { key: 'weightFront', g: 'chassis', u: '%', r: [30, 65, 0.5] },
+  { key: 'cgHeight', g: 'chassis', u: 'm', r: [0.15, 0.7, 0.01] },
+  { key: 'wheelbase', g: 'chassis', u: 'm', r: [2.2, 3.8, 0.005] },
+  { key: 'trackWidth', g: 'chassis', u: 'm', r: [1.3, 1.9, 0.01] },
+  { key: 'width', g: 'chassis', u: 'm', r: [1.6, 2.4, 0.005] },
+  { key: 'height', g: 'chassis', u: 'm', r: [0.8, 1.6, 0.005] },
+
+  { key: 'cx', g: 'aero', u: '', r: [0.2, 1.5, 0.01] },
+  { key: 'cz', g: 'aero', u: '', r: [0, 5, 0.05] },
+  { key: 'aeroBalance', g: 'aero', u: '%', r: [30, 60, 0.5] },
+  { key: 'wingFront', g: 'aero', u: '°', r: [0, 25, 0.5] },
+  { key: 'wingRear', g: 'aero', u: '°', r: [0, 30, 0.5] },
+  { key: 'rideFront', g: 'aero', u: 'mm', r: [10, 120, 1] },
+  { key: 'rideRear', g: 'aero', u: 'mm', r: [10, 150, 1] },
+  { key: 'brakeDuct', g: 'aero', u: '%', r: [0, 100, 5] },
+
+  { key: 'power', g: 'engine', u: 'ch', r: [50, 2000, 5] },
+  { key: 'rpmPeak', g: 'engine', u: 'tr/min', r: [4000, 18000, 100] },
+  { key: 'rpmMax', g: 'engine', u: 'tr/min', r: [4500, 20000, 100] },
+  { key: 'turbo', g: 'engine', t: 'bool' },
+  { key: 'hybridKW', g: 'engine', u: 'kW', r: [0, 400, 5] },
+  { key: 'hybridMJ', g: 'engine', u: 'MJ', r: [0, 12, 0.1] },
+  { key: 'bte', g: 'engine', u: '', r: [0.2, 0.55, 0.01] },
+  { key: 'fuelFlow', g: 'engine', u: 'kg/h', r: [0, 200, 1] },
+
+  { key: 'gears', g: 'trans', u: '', r: [4, 10, 1] },
+  { key: 'autoGear', g: 'trans', t: 'bool' },
+  { key: 'vTop', g: 'trans', u: 'km/h', r: [150, 450, 1] },
+  { key: 'shiftMs', g: 'trans', u: 'ms', r: [0, 300, 1] },
+  { key: 'drive', g: 'trans', t: 'select', o: ['RWD', 'AWD', 'FWD'] },
+  { key: 'driveEff', g: 'trans', u: '', r: [0.8, 0.98, 0.005] },
+  { key: 'diffLock', g: 'trans', u: '%', r: [0, 100, 5] },
+  { key: 'tc', g: 'trans', t: 'bool' },
+
+  { key: 'tank', g: 'fuel', u: 'L', r: [10, 200, 1] },
+  { key: 'fuel', g: 'fuel', u: 'L', r: [1, 200, 1] },
+  { key: 'fuelDensity', g: 'fuel', u: 'kg/L', r: [0.70, 0.80, 0.005] },
+  { key: 'refuelRate', g: 'fuel', u: 'L/s', r: [0.5, 20, 0.5] },
+
+  { key: 'compound', g: 'tires', t: 'select', o: COMPOUND_ORDER },
+  { key: 'tireMu', g: 'tires', u: 'µ', r: [0.8, 2.4, 0.01] },
+  { key: 'loadSens', g: 'tires', u: '', r: [0, 0.3, 0.01] },
+  { key: 'tireRadius', g: 'tires', u: 'm', r: [0.25, 0.45, 0.005] },
+  { key: 'pressF', g: 'tires', u: 'psi', r: [14, 40, 0.1] },
+  { key: 'pressR', g: 'tires', u: 'psi', r: [14, 40, 0.1] },
+  { key: 'camberF', g: 'tires', u: '°', r: [-6, 1, 0.1] },
+  { key: 'camberR', g: 'tires', u: '°', r: [-6, 1, 0.1] },
+  { key: 'tireInit', g: 'tires', u: '°C', r: [0, 110, 1] },
+  { key: 'tireChange', g: 'tires', u: 's', r: [2, 40, 0.5] },
+
+  { key: 'brakeBias', g: 'brakes', u: '%', r: [40, 70, 0.5] },
+  { key: 'brakeType', g: 'brakes', t: 'select', o: ['carbon', 'steel'] },
+  { key: 'brakeCap', g: 'brakes', u: 'kN', r: [8, 70, 1] },
+  { key: 'abs', g: 'brakes', t: 'bool' },
+
+  { key: 'stiffness', g: 'susp', u: '%', r: [0, 100, 1] },
+  { key: 'lltd', g: 'susp', u: '%', r: [30, 70, 0.5] },
+
+  { key: 'skill', g: 'driver', u: '%', r: [85, 100, 0.1] },
+  { key: 'consistency', g: 'driver', u: '%', r: [0, 2, 0.05] },
+];
+export const PARAM_GROUPS = ['chassis', 'aero', 'engine', 'trans', 'fuel', 'tires', 'brakes', 'susp', 'driver'];
